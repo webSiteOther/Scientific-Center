@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قسم البرمجة - المركز العلمي</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ========================
+           GLOBAL & THEME
+           ======================== */
+        :root {
+            --primary-cyan: #00BCD4;
+            --primary-teal: #00796B;
+            --gradient-color: linear-gradient(135deg, var(--primary-cyan), var(--primary-teal));
+            --dark-bg: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        
+        body {
+            color: #000;
+            background-color: #fafafa;
+            background-image: linear-gradient(to right, rgba(200, 200, 200, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(200, 200, 200, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            margin-bottom: 350px; /* Space for fixed footer */
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+
+        /* ========================
+           HEADER (STICKY)
+           ======================== */
+        header {
+            position: fixed; top: 0; width: 100%; background: var(--glass-bg);
+            backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo img { height: 45px; border-radius: 5px; }
+        .logo span { font-weight: 800; font-size: 1.4rem; background: var(--gradient-color); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav ul li a { font-weight: 600; font-size: 0.95rem; transition: 0.3s; }
+        nav ul li a:hover { color: var(--primary-teal); }
+
+        /* ========================
+           HERO SECTION
+           ======================== */
+        .hero { position: relative; height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; margin-top: 75px; overflow: hidden; }
+        .hero-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        .hero-slider img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: 1.5s; }
+        .hero-slider img.active { opacity: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: -1; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; }
+
+        /* ========================
+           INTRO SECTION
+           ======================== */
+        .intro-box { text-align: center; background: #fff; padding: 50px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); margin-top: -60px; position: relative; z-index: 5; }
+        .intro-box h2 { font-size: 2.2rem; color: var(--primary-teal); margin-bottom: 20px; }
+        .intro-box p { font-size: 1.2rem; line-height: 1.8; color: #444; max-width: 800px; margin: 0 auto; }
+
+        /* ========================
+           ACCORDION COURSES
+           ======================== */
+        .courses-section { padding: 80px 0; }
+        .course-accordion { margin-bottom: 20px; border-radius: 15px; overflow: hidden; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        
+        .accordion-header { 
+            padding: 25px 30px; background: #fff; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
+        }
+        .accordion-header:hover { background: #fdfdfd; }
+        .accordion-header.active { border-bottom: 2px solid var(--primary-cyan); }
+        
+        .header-main { display: flex; align-items: center; gap: 20px; }
+        .header-main i { font-size: 2rem; color: var(--primary-cyan); }
+        .header-main h3 { font-size: 1.5rem; }
+        
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0, 1, 0, 1); background: #fafafa; }
+        .accordion-content.open { max-height: 3000px; transition: max-height 1s ease-in; }
+
+        /* Roadmap UI */
+        .roadmap { padding: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .month-card { background: #fff; padding: 25px; border-radius: 15px; border-right: 4px solid var(--primary-teal); position: relative; }
+        .month-card h4 { color: var(--primary-teal); margin-bottom: 15px; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .month-card ul { list-style: none; }
+        .month-card li { margin-bottom: 10px; font-size: 0.95rem; color: #555; display: flex; align-items: center; gap: 8px; }
+        .month-card li::before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--primary-cyan); font-size: 0.8rem; }
+        .session-count { position: absolute; top: 10px; left: 10px; background: #e0f7fa; color: var(--primary-teal); padding: 2px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; }
+
+        /* ========================
+           VIDEO SECTION
+           ======================== */
+        .video-container { background: var(--dark-bg); padding: 80px 20px; border-radius: 40px; text-align: center; color: #fff; margin-bottom: 60px; }
+        .video-container h2 { margin-bottom: 40px; font-size: 2rem; }
+        .video-wrapper { max-width: 800px; margin: 0 auto; border-radius: 20px; overflow: hidden; box-shadow: 0 0 50px rgba(0,188,212,0.3); border: 4px solid rgba(255,255,255,0.1); }
+        video { width: 100%; display: block; }
+
+        /* ========================
+           CTA SECTION
+           ======================== */
+        .cta-box { background: var(--gradient-color); padding: 60px; border-radius: 30px; text-align: center; color: #fff; }
+        .cta-box h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .btn-white { background: #fff; color: var(--primary-teal); padding: 15px 40px; border-radius: 30px; font-weight: 800; font-size: 1.3rem; display: inline-block; transition: 0.3s; }
+        .btn-white:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        /* ========================
+           FOOTER (FIXED)
+           ======================== */
+        footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #111; color: #fff; padding: 60px 20px 20px; z-index: -5; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-col h4 { color: var(--primary-cyan); margin-bottom: 20px; }
+        .footer-col p { color: #ccc; font-size: 0.9rem; margin-bottom: 10px; }
+
+        @media (max-width: 992px) {
+            .roadmap { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="logo1.jpeg" alt="لوجو">
+                <span>المركز العلمي</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="departments.html">الأقسام</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-slider" id="slider"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>قسم البرمجة & AI</h1>
+                <p>نصنع مبرمجي المستقبل بأحدث الأدوات العالمية</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="intro-box">
+                <h2>لماذا البرمجة في المركز العلمي؟</h2>
+                <p>في عصر التحول الرقمي، لم تعد البرمجة مجرد رفاهية، بل هي "اللغة الثالثة" التي يجب أن يتقنها الجميع. في قسم البرمجة، لا نعلمك كتابة الكود فقط، بل نعلمك **منطق حل المشكلات** وكيفية بناء مشاريع حقيقية تنافس في سوق العمل العالمي، مع التركيز على التقنيات الصاعدة مثل الذكاء الاصطناعي وتحليل البيانات.</p>
+            </div>
+        </section>
+
+        <section class="container courses-section">
+            <h2 style="text-align: center; margin-bottom: 50px; font-size: 2.5rem;">خارطة طريق الكورسات (Roadmaps)</h2>
+
+            <div class="course-accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-main">
+                        <i class="fa-solid fa-cat"></i>
+                        <h3>Scratch (للأطفال والناشئين)</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="roadmap">
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4><i class="fa-solid fa-star"></i> الشهر 1: المنطق الرسومي</h4>
+                            <ul>
+                                <li>مفاهيم التفكير الخوارزمي</li>
+                                <li>واجهة Scratch والأحداث Events</li>
+                                <li>الحركة والتحكم في الكائنات</li>
+                                <li>بناء أول قصة تفاعلية</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4><i class="fa-solid fa-gear"></i> الشهر 2: المتغيرات والعمليات</h4>
+                            <ul>
+                                <li>استخدام المتغيرات في الألعاب</li>
+                                <li>الشروط والعمليات الحسابية</li>
+                                <li>نظام تسجيل النقاط (Score)</li>
+                                <li>تصميم لعبة "المتاهة الذكية"</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4><i class="fa-solid fa-rocket"></i> الشهر 3: المشروع النهائي</h4>
+                            <ul>
+                                <li>بناء بلوكات برمجية مخصصة</li>
+                                <li>تعدد الشخصيات وتفاعلها</li>
+                                <li>إضافة المؤثرات الصوتية</li>
+                                <li>تطوير لعبة كاملة (Platformer)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-main">
+                        <i class="fa-brands fa-python"></i>
+                        <h3>Python Masterclass</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="roadmap">
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 1: أساسيات البناء</h4>
+                            <ul>
+                                <li>Variables & Data Types</li>
+                                <li>Loops (For & While)</li>
+                                <li>Functions & Scope</li>
+                                <li>التعامل مع الـ Lists & Dictionaries</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 2: البرمجة المتقدمة</h4>
+                            <ul>
+                                <li>File Handling (Txt/CSV)</li>
+                                <li>Intro to OOP (Classes)</li>
+                                <li>Handling Exceptions</li>
+                                <li>بناء تطبيق أتمتة مهام بسيط</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 3: الاحتراف والمشاريع</h4>
+                            <ul>
+                                <li>Using External Libraries</li>
+                                <li>GUI with Tkinter</li>
+                                <li>Web Scraping basics</li>
+                                <li>مشروع: نظام إدارة بيانات كامل</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-main">
+                        <i class="fa-solid fa-robot"></i>
+                        <h3>Applied AI (الذكاء الاصطناعي التطبيقي)</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="roadmap">
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 1: Prompt Engineering</h4>
+                            <ul>
+                                <li>كيف يعمل الـ Generative AI</li>
+                                <li>هندسة الأوامر المتقدمة</li>
+                                <li>أدوات ChatGPT و Midjourney</li>
+                                <li>استخدام AI في الإنتاجية</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 2: AI Tools Integration</h4>
+                            <ul>
+                                <li>دمج AI في البرمجة (Copilot)</li>
+                                <li>استخدام APIs (OpenAI)</li>
+                                <li>بناء Chatbot مخصص</li>
+                                <li>التعامل مع نماذج الصور</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 3: Final AI Solution</h4>
+                            <ul>
+                                <li>Ethics & Future of AI</li>
+                                <li>No-Code AI App building</li>
+                                <li>تطوير وكيل ذكي (Agent)</li>
+                                <li>مشروع تخرج: تطبيق ذكي متكامل</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-main">
+                        <i class="fa-solid fa-globe"></i>
+                        <h3>Web Development (Frontend)</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="roadmap">
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 1: الهيكلة والتصميم</h4>
+                            <ul>
+                                <li>HTML5 Semantic Tags</li>
+                                <li>CSS3 (Box Model, Flexbox)</li>
+                                <li>Responsive Design (Grid)</li>
+                                <li>بناء Landing Page احترافية</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 2: التفاعل (JavaScript)</h4>
+                            <ul>
+                                <li>JS Fundamentals (ES6)</li>
+                                <li>DOM Manipulation</li>
+                                <li>Events & Form Validation</li>
+                                <li>بناء تطبيق To-Do List تفاعلي</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 3: بناء موقع كامل</h4>
+                            <ul>
+                                <li>Intro to API & Fetch</li>
+                                <li>Web Animations (CSS/JS)</li>
+                                <li>Deploying to Vercel/Netlify</li>
+                                <li>مشروع: موقع Portfolio شخصي</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-main">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h3>Data Analysis (Excel + Power BI)</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="roadmap">
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 1: Advanced Excel</h4>
+                            <ul>
+                                <li>Advanced Formulas (XLOOKUP)</li>
+                                <li>Pivot Tables & Charts</li>
+                                <li>Data Cleaning techniques</li>
+                                <li>Intro to Power Query</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 2: Power BI Basics</h4>
+                            <ul>
+                                <li>Data Modeling</li>
+                                <li>Creating Visualizations</li>
+                                <li>DAX Formulas fundamentals</li>
+                                <li>Connecting multiple sources</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 3: Storytelling with Data</h4>
+                            <ul>
+                                <li>Interactive Dashboards</li>
+                                <li>Power BI Service (Publishing)</li>
+                                <li>Data Ethics & Trends</li>
+                                <li>مشروع: تقرير مبيعات احترافي</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-main">
+                        <i class="fa-solid fa-microchip"></i>
+                        <h3>C++ Programming</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="roadmap">
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 1: هيكلة الذاكرة</h4>
+                            <ul>
+                                <li>Syntax & Data Types</li>
+                                <li>Pointers & Memory management</li>
+                                <li>Arrays & Vectors</li>
+                                <li>Loops & Logic</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 2: Object Oriented (OOP)</h4>
+                            <ul>
+                                <li>Classes & Objects</li>
+                                <li>Inheritance & Polymorphism</li>
+                                <li>Encapsulation</li>
+                                <li>Building reusable libraries</li>
+                            </ul>
+                        </div>
+                        <div class="month-card">
+                            <span class="session-count">8 حصص</span>
+                            <h4>الشهر 3: الخوارزميات والمشاريع</h4>
+                            <ul>
+                                <li>Intro to Data Structures</li>
+                                <li>Sorting & Searching</li>
+                                <li>Working with Headers</li>
+                                <li>مشروع: نظام بنكي/مكتبة 콘솔</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="container">
+            <div class="video-container">
+                <h2>نظرة داخل معامل البرمجة</h2>
+                <div class="video-wrapper">
+                    <video controls poster="logo1.jpeg">
+                        <source src="vid-programming.mp4" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    </video>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="cta-box">
+                <h2>جاهز تكون مبرمج محترف؟</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 30px;">المقاعد محدودة لضمان جودة التعليم التطبيقي</p>
+                <a href="contact.html" class="btn-white">احجز كورس البرمجة الآن</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>المركز العلمي</h4>
+                <p>بني سويف - 38 شارع بورسعيد</p>
+                <p>scientificcenteral022@gmail.com</p>
+            </div>
+            <div class="footer-col">
+                <h4>تواصل معنا</h4>
+                <p>01010959839</p>
+                <p>01000745165</p>
+            </div>
+            <div class="footer-col" style="text-align: left;">
+                <img src="logo1.jpeg" height="50" style="border-radius: 5px;">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hero Slider Logic
+        const slider = document.getElementById('slider');
+        for(let i=1; i<=56; i++) {
+            const img = document.createElement('img');
+            img.src = `bar (${i}).jpeg`;
+            if(i===1) img.className = 'active';
+            slider.appendChild(img);
+        }
+
+        let current = 0;
+        const images = document.querySelectorAll('.hero-slider img');
+        setInterval(() => {
+            images[current].classList.remove('active');
+            current = (current + 1) % images.length;
+            images[current].classList.add('active');
+        }, 3000);
+
+        // Accordion Logic
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.fa-chevron-down');
+            
+            // Close others (optional - for better focus)
+            document.querySelectorAll('.accordion-content').forEach(c => {
+                if(c !== content) {
+                    c.classList.remove('open');
+                    c.previousElementSibling.classList.remove('active');
+                    c.previousElementSibling.querySelector('.fa-chevron-down').style.transform = "rotate(0deg)";
+                }
+            });
+
+            content.classList.toggle('open');
+            header.classList.toggle('active');
+            
+            if(content.classList.contains('open')) {
+                icon.style.transform = "rotate(180deg)";
+            } else {
+                icon.style.transform = "rotate(0deg)";
+            }
+        }
+    </script>
+</body>
+</html>
