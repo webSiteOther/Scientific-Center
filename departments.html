@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أقسام المركز - المركز العلمي</title>
+    
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ========================
+           GLOBAL VARIABLES & RESET
+           ======================== */
+        :root {
+            --primary-cyan: #00BCD4;
+            --primary-teal: #00796B;
+            --gradient-color: linear-gradient(135deg, var(--primary-cyan), var(--primary-teal));
+            --text-color: #000000;
+            --text-light: #555555;
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            background-color: #fafafa;
+            /* Light gray background lines */
+            background-image: 
+                linear-gradient(to right, rgba(200, 200, 200, 0.15) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            /* Margin bottom to accommodate sticky footer */
+            margin-bottom: 350px; 
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ========================
+           TYPOGRAPHY & UTILITIES
+           ======================== */
+        h1, h2, h3, h4 { font-weight: 800; margin-bottom: 15px; }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            background: var(--gradient-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        /* ========================
+           HEADER (STICKY)
+           ======================== */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo img { height: 50px; width: 50px; object-fit: cover; border-radius: 5px; }
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        nav ul li a { font-size: 1.1rem; font-weight: 600; transition: color 0.3s ease; }
+        nav ul li a:hover { color: var(--primary-teal); }
+
+        /* ========================
+           HERO SECTION
+           ======================== */
+        .hero {
+            position: relative;
+            height: 60vh; /* Slightly shorter for internal pages */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            margin-top: 80px; 
+        }
+
+        .hero-slider {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+        }
+
+        .hero-slider img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .hero-slider img.active { opacity: 1; }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        .hero-content {
+            color: #fff;
+            z-index: 1;
+            padding: 0 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero-content h1 { font-size: 3.5rem; margin-bottom: 15px; }
+        .hero-content p { font-size: 1.3rem; font-weight: 600; }
+
+        /* ========================
+           DEPARTMENTS CARDS
+           ======================== */
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .dept-card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0, 188, 212, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Top colored bar effect on hover */
+        .dept-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--gradient-color);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: center;
+        }
+
+        .dept-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .dept-card:hover::before { transform: scaleX(1); }
+
+        .dept-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: var(--gradient-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .dept-card:hover .dept-icon {
+            transform: scale(1.1);
+        }
+
+        .dept-title {
+            font-size: 1.6rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        .dept-desc {
+            font-size: 1rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .btn-card {
+            display: inline-block;
+            padding: 10px 25px;
+            background: transparent;
+            color: var(--primary-teal);
+            border: 2px solid var(--primary-teal);
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .dept-card:hover .btn-card {
+            background: var(--gradient-color);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* ========================
+           FOOTER (FIXED)
+           ======================== */
+        footer {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: #111; color: #fff;
+            padding: 60px 20px 20px;
+            z-index: -5;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 30px;
+        }
+
+        .footer-col h4 { color: var(--primary-cyan); font-size: 1.5rem; margin-bottom: 20px; }
+        .footer-col p, .footer-col ul li { color: #ccc; margin-bottom: 15px; line-height: 1.6; }
+        .footer-col ul { list-style: none; }
+        .footer-col i { margin-left: 10px; color: var(--primary-teal); }
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
+        .social-links a {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); color: #fff;
+            transition: all 0.3s ease;
+        }
+        .social-links a:hover { background: var(--gradient-color); transform: translateY(-3px); }
+        .footer-bottom { text-align: center; padding-top: 20px; color: #888; }
+
+        /* ========================
+           RESPONSIVE DESIGN
+           ======================== */
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; gap: 15px; }
+            nav ul { flex-wrap: wrap; justify-content: center; }
+            .hero-content h1 { font-size: 2.5rem; }
+            body { margin-bottom: auto; }
+            footer { position: relative; z-index: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="logo1.jpeg" alt="لوجو المركز العلمي">
+                <span>المركز العلمي</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="departments.html" style="color: var(--primary-teal);">الأقسام</a></li>
+                    <li><a href="courses.html">الكورسات</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-slider" id="slider">
+                <!-- Images will be injected via JavaScript -->
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>أقسام المركز</h1>
+                <p>اختر المسار اللي يناسب طموحك وابدأ رحلة التعلم</p>
+            </div>
+        </section>
+
+        <!-- DEPARTMENTS GRID -->
+        <section class="container">
+            <div class="departments-grid">
+                
+                <!-- Programming -->
+                <div class="dept-card">
+                    <i class="fa-solid fa-laptop-code dept-icon"></i>
+                    <h3 class="dept-title">برمجة</h3>
+                    <p class="dept-desc">تعلم لغات البرمجة الحديثة، تصميم الويب، وتطوير التطبيقات بأسلوب عملي يؤهلك لسوق العمل التقني.</p>
+                    <a href="programming.html" class="btn-card">اعرف أكتر</a>
+                </div>
+
+                <!-- Accounting -->
+                <div class="dept-card">
+                    <i class="fa-solid fa-file-invoice-dollar dept-icon"></i>
+                    <h3 class="dept-title">محاسبة</h3>
+                    <p class="dept-desc">تأهيل شامل في المحاسبة المالية، المحاسبة الإلكترونية، واستخدام البرامج المحاسبية المعتمدة.</p>
+                    <a href="accounting.html" class="btn-card">اعرف أكتر</a>
+                </div>
+
+                <!-- Languages -->
+                <div class="dept-card">
+                    <i class="fa-solid fa-language dept-icon"></i>
+                    <h3 class="dept-title">لغات</h3>
+                    <p class="dept-desc">كورسات متخصصة في إتقان اللغات الأجنبية وتطوير مهارات المحادثة والاستماع والقراءة بطلاقة.</p>
+                    <a href="languages.html" class="btn-card">اعرف أكتر</a>
+                </div>
+
+                <!-- Drawing -->
+                <div class="dept-card">
+                    <i class="fa-solid fa-palette dept-icon"></i>
+                    <h3 class="dept-title">رسم</h3>
+                    <p class="dept-desc">تنمية المواهب الفنية وتعلم أساسيات ومبادئ الرسم بمختلف الخامات والأساليب الفنية الحديثة.</p>
+                    <a href="drawing.html" class="btn-card">اعرف أكتر</a>
+                </div>
+
+                <!-- Calligraphy -->
+                <div class="dept-card">
+                    <i class="fa-solid fa-pen-nib dept-icon"></i>
+                    <h3 class="dept-title">خط</h3>
+                    <p class="dept-desc">تحسين مهارات الكتابة اليدوية وتعلم قواعد الخط العربي بأنواعه المختلفة بمهارة ودقة عالية.</p>
+                    <a href="calligraphy.html" class="btn-card">اعرف أكتر</a>
+                </div>
+
+                <!-- Nour El-Bayan -->
+                <div class="dept-card">
+                    <i class="fa-solid fa-book-open-reader dept-icon"></i>
+                    <h3 class="dept-title">نور بيان</h3>
+                    <p class="dept-desc">التأسيس السليم للأطفال في القراءة والكتابة باللغة العربية مع التركيز على أحكام التجويد الأساسية.</p>
+                    <a href="nour-bayan.html" class="btn-card">اعرف أكتر</a>
+                </div>
+
+                <!-- ICDL -->
+                <div class="dept-card">
+                    <i class="fa-solid fa-computer dept-icon"></i>
+                    <h3 class="dept-title">ICDL</h3>
+                    <p class="dept-desc">احتراف برامج الأوفيس وأساسيات الحاسب الآلي وتكنولوجيا المعلومات للحصول على الرخصة الدولية.</p>
+                    <a href="icdl.html" class="btn-card">اعرف أكتر</a>
+                </div>
+
+                <!-- G-Maths -->
+                <div class="dept-card">
+                    <i class="fa-solid fa-brain dept-icon"></i>
+                    <h3 class="dept-title">G-Maths</h3>
+                    <p class="dept-desc">برامج متخصصة في الحساب الذهني لتنمية القدرات العقلية، سرعة البديهة، والتركيز للأطفال.</p>
+                    <a href="g-maths.html" class="btn-card">اعرف أكتر</a>
+                </div>
+
+                <!-- Graphic Design -->
+                <div class="dept-card">
+                    <i class="fa-solid fa-object-group dept-icon"></i>
+                    <h3 class="dept-title">جرافيك</h3>
+                    <p class="dept-desc">تعلم تصميم الجرافيك الاحترافي واحتراف برامج أدوبي لتصبح مصمماً مبدعاً ومبتكراً.</p>
+                    <a href="graphics.html" class="btn-card">اعرف أكتر</a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 20px;">
+                    <img src="logo1.jpeg" alt="لوجو">
+                    <span style="color: #fff;">المركز العلمي</span>
+                </div>
+                <p>المركز العلمي - خبرة سنين. نقدم لك أفضل الحلول التعليمية لتطوير مهاراتك الفكرية والعملية.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>تواصل معنا</h4>
+                <ul>
+                    <li><i class="fa-solid fa-phone"></i> 01010959839</li>
+                    <li><i class="fa-solid fa-phone"></i> 01000745165</li>
+                    <li><i class="fa-solid fa-phone"></i> 01200381204</li>
+                    <li><i class="fa-solid fa-phone"></i> 0111963669</li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>بيانات المركز</h4>
+                <ul>
+                    <li><i class="fa-solid fa-envelope"></i> scientificcenteral022@gmail.com</li>
+                    <li><i class="fa-solid fa-location-dot"></i> بني سويف - 38 شارع بورسعيد - أرض المحلج</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 المركز العلمي. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT FOR HERO SLIDER -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sliderContainer = document.getElementById('slider');
+            const totalImages = 56;
+            
+            // Generate Image Elements for bar (1).jpeg to bar (56).jpeg
+            for (let i = 1; i <= totalImages; i++) {
+                const img = document.createElement('img');
+                img.src = `bar (${i}).jpeg`;
+                img.alt = `شريحة ${i}`;
+                if (i === 1) img.classList.add('active');
+                sliderContainer.appendChild(img);
+            }
+
+            // Slider Logic
+            const images = document.querySelectorAll('.hero-slider img');
+            let currentIndex = 0;
+
+            if(images.length > 0) {
+                setInterval(() => {
+                    images[currentIndex].classList.remove('active');
+                    currentIndex = (currentIndex + 1) % images.length;
+                    images[currentIndex].classList.add('active');
+                }, 3500);
+            }
+        });
+    </script>
+</body>
+</html>
