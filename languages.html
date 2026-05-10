@@ -4,424 +4,187 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>قسم اللغات - المركز العلمي</title>
-    
-    <!-- Google Fonts: Cairo -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome for Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <style>
-        /* ========================
-           GLOBAL VARIABLES & RESET
-           ======================== */
+        /* --- التنسيقات العامة والهوية البصرية --- */
         :root {
-            --primary-cyan: #00BCD4;
-            --primary-teal: #00796B;
-            --gradient-color: linear-gradient(135deg, var(--primary-cyan), var(--primary-teal));
-            --text-color: #000000;
-            --text-light: #555555;
-            --bg-color: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.95);
+            --cyan: #00bcd4;
+            --teal: #009688;
+            --dark: #222;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --gray: #555;
+            --gradient: linear-gradient(135deg, var(--cyan), var(--teal));
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--white); color: var(--dark); line-height: 1.6; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        .highlight { color: var(--cyan); }
 
-        body {
-            color: var(--text-color);
-            background-color: #fafafa;
-            /* Light gray background lines */
-            background-image: 
-                linear-gradient(to right, rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            /* Margin bottom to accommodate sticky footer */
-            margin-bottom: 350px; 
-        }
+        /* --- Header --- */
+        .header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo-img { max-height: 60px; }
+        .nav-list { display: flex; gap: 25px; list-style: none; }
+        .nav-list a { font-weight: 600; text-decoration: none; color: var(--dark); transition: 0.3s; }
+        .nav-list a:hover { color: var(--teal); }
 
-        a { text-decoration: none; color: inherit; }
+        /* --- Hero Section --- */
+        .hero { position: relative; height: 50vh; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
+        .scrolling-track { display: flex; height: 100%; width: max-content; animation: scroll 60s linear infinite; }
+        .scrolling-track img { height: 100%; object-fit: cover; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; }
+        .hero-content h1 { font-size: 3rem; margin-bottom: 10px; }
+        .hero-content p { font-size: 1.2rem; font-weight: 300; }
 
-        /* ========================
-           HEADER (STICKY)
-           ======================== */
-        header {
-            position: fixed; top: 0; width: 100%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px; margin: 0 auto; padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .logo { display: flex; align-items: center; gap: 10px; }
-        .logo img { height: 50px; width: 50px; object-fit: cover; border-radius: 5px; }
-        .logo span {
-            font-size: 1.5rem; font-weight: 800;
-            background: var(--gradient-color);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        nav ul { list-style: none; display: flex; gap: 30px; }
-        nav ul li a { font-size: 1.1rem; font-weight: 600; transition: color 0.3s ease; }
-        nav ul li a:hover { color: var(--primary-teal); }
-
-        /* ========================
-           HERO SECTION
-           ======================== */
-        .hero {
-            position: relative; height: 60vh;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; overflow: hidden; margin-top: 80px;
-        }
-
-        .hero-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
-        .hero-slider img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out;
-        }
-        .hero-slider img.active { opacity: 1; }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: -1; }
-        
-        .hero-content { color: #fff; z-index: 1; padding: 0 20px; animation: fadeInDown 1s ease-out; }
-        .hero-content h1 { font-size: 4rem; margin-bottom: 15px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
-        .hero-content p { font-size: 1.5rem; font-weight: 600; }
-
-        /* ========================
-           MAIN CONTENT
-           ======================== */
-        .container { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
-        
-        .section-title {
-            text-align: center; font-size: 2.5rem; margin-bottom: 60px;
-            background: var(--gradient-color);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-
-        /* Languages Grid */
-        .langs-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px; margin-bottom: 80px;
-        }
-
-        .lang-card {
-            background: #fff; border-radius: 20px; padding: 40px 30px;
-            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            position: relative; overflow: hidden; transition: 0.4s ease;
-            border: 1px solid rgba(0, 188, 212, 0.1);
-        }
-
-        .lang-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .lang-card::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px;
-            background: var(--gradient-color); transform: scaleX(0); transition: 0.4s;
-        }
-        .lang-card:hover::after { transform: scaleX(1); }
-
-        .lang-icon { font-size: 4rem; margin-bottom: 20px; color: var(--primary-cyan); }
-        .lang-title { font-size: 1.8rem; margin-bottom: 15px; color: var(--primary-teal); }
-        .lang-desc { color: var(--text-light); font-size: 1.1rem; line-height: 1.6; }
-
-        /* Methodology / Features Grid */
-        .features-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 30px; margin-bottom: 80px;
-        }
-
-        .feature-box {
-            background: #fff; padding: 30px; border-radius: 15px;
-            display: flex; align-items: flex-start; gap: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03); border-right: 4px solid var(--primary-teal);
-        }
-
-        .feature-icon {
-            background: var(--gradient-color); width: 60px; height: 60px;
-            display: flex; justify-content: center; align-items: center;
-            border-radius: 50%; color: #fff; font-size: 1.5rem; flex-shrink: 0;
-        }
-
-        .feature-content h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--text-color); }
-        .feature-content p { font-size: 1rem; color: var(--text-light); line-height: 1.6; }
-
-        /* Levels Timeline */
-        .levels-container {
-            background: #fff; padding: 40px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; margin-bottom: 80px;
-        }
-        .levels-path {
-            display: flex; justify-content: space-between; align-items: center;
-            position: relative; max-width: 800px; margin: 40px auto 0;
-        }
-        .levels-path::before {
-            content: ''; position: absolute; top: 50%; left: 0; right: 0;
-            height: 4px; background: #eee; z-index: 1; transform: translateY(-50%);
-        }
-        .level-step {
-            position: relative; z-index: 2; background: #fff;
-            padding: 15px 30px; border-radius: 30px; border: 2px solid var(--primary-cyan);
-            font-weight: 700; color: var(--primary-teal);
-        }
-        .level-step.active { background: var(--gradient-color); color: #fff; border: none; }
-
-        /* ========================
-           VIDEO & CTA SECTION
-           ======================== */
-        .video-section {
-            background: #111; padding: 80px 20px; text-align: center;
-            border-radius: 40px; color: #fff; margin-bottom: 60px;
-        }
-        .video-wrapper {
-            max-width: 800px; margin: 40px auto 0; border-radius: 20px; overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 188, 212, 0.2); border: 3px solid rgba(255,255,255,0.1);
-        }
+        /* --- Intro & Video Section --- */
+        .intro-section { padding: 80px 0; background: var(--light-bg); }
+        .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .intro-text h2 { font-size: 2.2rem; color: var(--teal); margin-bottom: 20px; }
+        .intro-text p { font-size: 1.1rem; color: var(--gray); margin-bottom: 15px; }
+        .video-container { width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 5px solid #fff; }
         video { width: 100%; display: block; }
 
-        .cta-section { text-align: center; padding: 40px 20px; }
-        .btn-primary {
-            background: var(--gradient-color); color: #fff; padding: 18px 45px;
-            border-radius: 35px; font-size: 1.4rem; font-weight: 800;
-            border: none; cursor: pointer; display: inline-block;
-            transition: 0.3s ease; box-shadow: 0 10px 20px rgba(0, 188, 212, 0.3);
-        }
-        .btn-primary:hover { transform: translateY(-5px); box-shadow: 0 15px 25px rgba(0, 188, 212, 0.4); color: #fff;}
+        /* --- Languages Cards Section --- */
+        .languages-section { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--dark); position: relative; display: inline-block; padding-bottom: 10px; }
+        .section-title h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: var(--gradient); border-radius: 2px; }
 
-        /* ========================
-           FOOTER (FIXED)
-           ======================== */
-        footer {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: #111; color: #fff; padding: 60px 20px 20px; z-index: -5;
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .lang-card { 
+            background: var(--white); border-radius: 15px; padding: 40px 30px; 
+            text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
+            transition: all 0.3s ease; border-bottom: 4px solid transparent;
         }
-        .footer-content {
-            max-width: 1200px; margin: 0 auto; display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;
-            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px;
-        }
-        .footer-col h4 { color: var(--primary-cyan); font-size: 1.5rem; margin-bottom: 20px; }
-        .footer-col p, .footer-col ul li { color: #ccc; margin-bottom: 15px; line-height: 1.6; }
-        .footer-col ul { list-style: none; }
-        .footer-col i { margin-left: 10px; color: var(--primary-teal); }
-        .social-links { display: flex; gap: 15px; margin-top: 20px; }
-        .social-links a {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 40px; height: 40px; border-radius: 50%;
-            background: rgba(255,255,255,0.1); color: #fff; transition: 0.3s;
-        }
-        .social-links a:hover { background: var(--gradient-color); transform: translateY(-3px); }
-        .footer-bottom { text-align: center; padding-top: 20px; color: #888; }
+        .lang-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: var(--cyan); }
+        .card-icon { font-size: 3.5rem; color: var(--cyan); margin-bottom: 20px; }
+        .lang-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--dark); }
+        .lang-card p { color: var(--gray); font-size: 1rem; line-height: 1.7; }
+        
+        .badge { display: inline-block; background: var(--light-bg); padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; color: var(--teal); margin-top: 15px; font-weight: 600; border: 1px solid #eee;}
 
-        /* ========================
-           RESPONSIVE DESIGN
-           ======================== */
-        @media (max-width: 992px) {
-            .features-grid { grid-template-columns: 1fr; }
-            .levels-path { flex-direction: column; gap: 20px; }
-            .levels-path::before { display: none; }
-            .level-step { width: 100%; }
-        }
+        /* --- Footer --- */
+        .footer { background: var(--dark); color: var(--white); padding: 50px 0 20px; text-align: center; }
+        .footer-logo { max-height: 70px; margin-bottom: 15px; filter: brightness(0) invert(1); }
+        .contact-info { margin-top: 20px; font-size: 0.9rem; color: #ccc; }
+
         @media (max-width: 768px) {
-            .nav-container { flex-direction: column; gap: 15px; }
-            nav ul { flex-wrap: wrap; justify-content: center; }
-            .hero-content h1 { font-size: 2.5rem; }
-            body { margin-bottom: auto; }
-            footer { position: relative; z-index: 1; }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            .intro-grid { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .section-title h2 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="nav-container">
-            <div class="logo">
-                <img src="logo1.jpeg" alt="لوجو المركز العلمي">
-                <span>المركز العلمي</span>
-            </div>
+    <header class="header">
+        <div class="container nav-container">
+            <div class="logo"><a href="index.html"><img src="logo1.jpeg" class="logo-img" alt="المركز العلمي"></a></div>
             <nav>
-                <ul>
+                <ul class="nav-list">
                     <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="about.html">من نحن</a></li>
-                    <li><a href="departments.html" style="color: var(--primary-teal);">الأقسام</a></li>
-                    <li><a href="courses.html">الكورسات</a></li>
-                    <li><a href="contact.html">تواصل معنا</a></li>
+                    <li><a href="#" style="color: var(--cyan);">قسم اللغات</a></li>
+                    <li><a href="index.html#about">من نحن</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main>
-        
-        <!-- HERO SECTION -->
-        <section class="hero">
-            <div class="hero-slider" id="slider"></div>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <h1>قسم اللغات</h1>
-                <p>تحدث بطلاقة.. وافتح أبواب العالم أمامك</p>
+    <section class="hero">
+        <div class="hero-bg" dir="ltr">
+            <div class="scrolling-track" id="scrolling-track">
+                </div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>قسم <span class="highlight">اللغات</span></h1>
+            <p>تواصل مع العالم وافتح آفاقاً جديدة لمستقبلك</p>
+        </div>
+    </section>
+
+    <section class="intro-section">
+        <div class="container intro-grid">
+            <div class="intro-text">
+                <h2>أتقن اللغات وتحدث بثقة</h2>
+                <p>في المركز العلمي، نؤمن بأن اللغة هي مفتاح التواصل مع العالم. لذلك نقدم برامج تدريبية متكاملة تركز على مهارات الاستماع والمحادثة والقراءة والكتابة.</p>
+                <p>نعتمد على مناهج تفاعلية وأساليب تدريس حديثة تضمن لك التحدث بطلاقة وتجاوز حواجز الخوف من الممارسة العملية للغة.</p>
             </div>
-        </section>
-
-        <section class="container">
-            
-            <!-- LANGUAGES CARDS -->
-            <h2 class="section-title">اللغات المتاحة</h2>
-            <div class="langs-grid">
-                <!-- English -->
-                <div class="lang-card">
-                    <i class="fa-solid fa-language lang-icon"></i>
-                    <h3 class="lang-title">English</h3>
-                    <p class="lang-desc">إتقان اللكنتين (American & British). نركز على مهارات التواصل اليومي، المحادثات الأكاديمية، والتحضير لاختبارات الـ IELTS و TOEFL.</p>
-                </div>
-
-                <!-- German -->
-                <div class="lang-card">
-                    <i class="fa-solid fa-comment-dots lang-icon"></i>
-                    <h3 class="lang-title">German (Deutsch)</h3>
-                    <p class="lang-desc">بوابتك للدراسة والعمل في ألمانيا. تدريب مكثف على القواعد والنطق السليم، مع إعداد كامل لاجتياز امتحانات معهد جوته.</p>
-                </div>
-
-                <!-- French -->
-                <div class="lang-card">
-                    <i class="fa-solid fa-earth-europe lang-icon"></i>
-                    <h3 class="lang-title">French (Français)</h3>
-                    <p class="lang-desc">لغة الفن والثقافة. نقدم منهجاً تفاعلياً يضمن لك التحدث بالفرنسية بثقة وسلاسة، وتطوير حصيلتك اللغوية بشكل سريع.</p>
-                </div>
-            </div>
-
-            <!-- METHODOLOGY / FEATURES -->
-            <h2 class="section-title">منهجية التعليم في المركز</h2>
-            
-            <!-- Levels Path -->
-            <div class="levels-container">
-                <h3 style="font-size: 1.8rem; margin-bottom: 20px;">Levels (المستويات)</h3>
-                <p style="color: var(--text-light); font-size: 1.1rem;">تدرج أكاديمي مدروس يبدأ معك من الصفر وصولاً إلى الاحتراف</p>
-                <div class="levels-path">
-                    <div class="level-step">Beginner (مبتدئ)</div>
-                    <div class="level-step">Elementary (ابتدائي)</div>
-                    <div class="level-step">Intermediate (متوسط)</div>
-                    <div class="level-step active">Advanced (متقدم)</div>
-                </div>
-            </div>
-
-            <!-- Speaking & Listening -->
-            <div class="features-grid">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fa-solid fa-microphone-lines"></i></div>
-                    <div class="feature-content">
-                        <h3>Speaking Practice</h3>
-                        <p>كسر حاجز الخوف من التحدث (Conversation Classes). ممارسة مستمرة عبر الـ Role-play والنقاشات المفتوحة لتتحدث كأهل اللغة.</p>
-                    </div>
-                </div>
-
-                <div class="feature-box" style="grid-column: span 2;">
-                    <div class="feature-icon"><i class="fa-solid fa-headphones-simple"></i></div>
-                    <div class="feature-content">
-                        <h3>Listening Skills</h3>
-                        <p>التدريب المكثف للأذن على التقاط الكلمات وفهم اللهجات المختلفة. نعتمد على مقاطع صوتية حقيقية، أجزاء من أفلام، ونشرات إخبارية لتحسين الاستيعاب السمعي وتطوير النطق الصحيح (Pronunciation).</p>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- VIDEO SECTION -->
-        <section class="video-section">
-            <h2 style="font-size: 2.5rem; margin-bottom: 10px;">جولة تفاعلية داخل فصول اللغات</h2>
-            <p style="font-size: 1.2rem; color: #ccc;">شاهد أساليبنا المبتكرة في التدريس وتفاعل الطلاب</p>
-            <div class="video-wrapper">
+            <div class="video-container">
                 <video controls poster="logo1.jpeg">
                     <source src="vid-eng.mp4" type="video/mp4">
                     متصفحك لا يدعم تشغيل الفيديو.
                 </video>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- CTA SECTION -->
-        <section class="cta-section">
-            <a href="contact.html" class="btn-primary">ابدأ تعلم اللغة الآن <i class="fa-solid fa-arrow-left" style="margin-right: 10px;"></i></a>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-col">
-                <div class="logo" style="margin-bottom: 20px;">
-                    <img src="logo1.jpeg" alt="لوجو">
-                    <span style="color: #fff;">المركز العلمي</span>
-                </div>
-                <p>المركز العلمي - خبرة سنين. نقدم لك أفضل الحلول التعليمية لتطوير مهاراتك الفكرية والعملية.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
+    <section class="languages-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>الكورسات المتاحة بالقسم</h2>
             </div>
+            
+            <div class="cards-grid">
+                <div class="lang-card">
+                    <i class="fas fa-language card-icon"></i>
+                    <h3>اللغة الإنجليزية</h3>
+                    <p>تأسيس قوي وممارسة مكثفة للمحادثة لضمان الطلاقة. نوفر لك مسارين لتختار ما يناسب أهدافك المهنية والشخصية.</p>
+                    <div style="margin-top: 15px;">
+                        <span class="badge">اللكنة الأمريكية (American)</span>
+                        <span class="badge">اللكنة البريطانية (British)</span>
+                    </div>
+                </div>
 
-            <div class="footer-col">
-                <h4>تواصل معنا</h4>
-                <ul>
-                    <li><i class="fa-solid fa-phone"></i> 01010959839</li>
-                    <li><i class="fa-solid fa-phone"></i> 01000745165</li>
-                    <li><i class="fa-solid fa-phone"></i> 01200381204</li>
-                    <li><i class="fa-solid fa-phone"></i> 0111963669</li>
-                </ul>
-            </div>
+                <div class="lang-card">
+                    <i class="fas fa-globe-europe card-icon"></i>
+                    <h3>اللغة الألمانية</h3>
+                    <p>من الصفر وحتى مستويات المحادثة المتقدمة. نؤهلك لاجتياز اختبارات اللغة الدولية للعمل أو الدراسة في ألمانيا بخطوات واضحة ومنهجية.</p>
+                    <span class="badge">مستويات A1 إلى B2</span>
+                </div>
 
-            <div class="footer-col">
-                <h4>بيانات المركز</h4>
-                <ul>
-                    <li><i class="fa-solid fa-envelope"></i> scientificcenteral022@gmail.com</li>
-                    <li><i class="fa-solid fa-location-dot"></i> بني سويف - 38 شارع بورسعيد - أرض المحلج</li>
-                </ul>
+                <div class="lang-card">
+                    <i class="fas fa-comment-dots card-icon"></i>
+                    <h3>اللغة الفرنسية</h3>
+                    <p>تعلم قواعد اللغة والمحادثات اليومية بطرق تفاعلية وممتعة. مناسب للطلاب والراغبين في إضافة لغة قوية لسيرتهم الذاتية.</p>
+                    <span class="badge">تفاعلي ومكثف</span>
+                </div>
+
+                <div class="lang-card">
+                    <i class="fas fa-map-marked-alt card-icon"></i>
+                    <h3>اللهجة المصرية</h3>
+                    <p>كورس مخصص للأجانب والمهتمين بتعلم الثقافة والتحدث بالعامية المصرية (Egyptian Arabic) للتواصل اليومي بسلاسة.</p>
+                    <span class="badge">لغير الناطقين بها</span>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 المركز العلمي. جميع الحقوق محفوظة.</p>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <img src="logo1.jpeg" class="footer-logo" alt="المركز العلمي">
+            <p>المركز العلمي _ خبرة سنين</p>
+            <div class="contact-info">
+                <p>بني سويف - أرض المحلج | 01010959839</p>
+            </div>
         </div>
     </footer>
 
-    <!-- JAVASCRIPT FOR HERO SLIDER -->
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const sliderContainer = document.getElementById('slider');
-            const totalImages = 56;
-            
-            for (let i = 1; i <= totalImages; i++) {
-                const img = document.createElement('img');
-                img.src = `bar (${i}).jpeg`;
-                img.alt = `شريحة ${i}`;
-                if (i === 1) img.classList.add('active');
-                sliderContainer.appendChild(img);
+        document.addEventListener('DOMContentLoaded', () => {
+            // شريط الصور المتحرك في الهيرو (56 صورة)
+            const track = document.getElementById('scrolling-track');
+            let imagesHTML = '';
+            for (let i = 1; i <= 56; i++) {
+                imagesHTML += `<img src="bar (${i}).jpeg" alt="Center Image ${i}" onerror="this.style.display='none'">`;
             }
-
-            const images = document.querySelectorAll('.hero-slider img');
-            let currentIndex = 0;
-
-            if(images.length > 0) {
-                setInterval(() => {
-                    images[currentIndex].classList.remove('active');
-                    currentIndex = (currentIndex + 1) % images.length;
-                    images[currentIndex].classList.add('active');
-                }, 3500);
-            }
+            track.innerHTML = imagesHTML + imagesHTML;
         });
     </script>
 </body>
