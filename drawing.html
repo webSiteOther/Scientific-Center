@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قسم الرسم - المركز العلمي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- التنسيقات العامة والهوية البصرية --- */
+        :root {
+            --cyan: #00bcd4;
+            --teal: #009688;
+            --dark: #222;
+            --light-bg: #fdfdfd;
+            --white: #ffffff;
+            --gray: #666;
+            --gradient: linear-gradient(135deg, var(--cyan), var(--teal));
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--white); color: var(--dark); line-height: 1.6; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        .highlight { color: var(--cyan); }
+
+        /* --- Header --- */
+        .header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo-img { max-height: 60px; }
+        .nav-list { display: flex; gap: 25px; list-style: none; }
+        .nav-list a { font-weight: 600; text-decoration: none; color: var(--dark); transition: 0.3s; }
+        .nav-list a:hover { color: var(--teal); }
+
+        /* --- Hero Section --- */
+        .hero { position: relative; height: 50vh; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
+        .scrolling-track { display: flex; height: 100%; width: max-content; animation: scroll 60s linear infinite; }
+        .scrolling-track img { height: 100%; object-fit: cover; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.65); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; }
+        .hero-content h1 { font-size: 3.5rem; margin-bottom: 10px; }
+        .hero-content p { font-size: 1.2rem; font-weight: 300; }
+
+        /* --- Art Intro Section --- */
+        .art-intro { padding: 80px 0; background: var(--white); text-align: center; }
+        .art-intro-text { max-width: 800px; margin: 0 auto; }
+        .art-intro-text h2 { font-size: 2.5rem; color: var(--teal); margin-bottom: 20px; }
+        .art-intro-text p { font-size: 1.1rem; color: var(--gray); margin-bottom: 30px; }
+        .icon-art { font-size: 4rem; color: var(--cyan); margin-bottom: 20px; }
+
+        /* --- Drawing Levels/Courses --- */
+        .art-levels { padding: 80px 0; background: var(--light-bg); border-top: 1px solid #eee; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.2rem; color: var(--dark); position: relative; display: inline-block; padding-bottom: 10px; }
+        .section-title h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--gradient); border-radius: 2px; }
+
+        .levels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .level-card { 
+            background: var(--white); padding: 40px 30px; border-radius: 15px; 
+            text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
+            border: 1px solid #f0f0f0; transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .level-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradient); transform: scaleX(0); transition: 0.3s; transform-origin: right; }
+        .level-card:hover::before { transform: scaleX(1); }
+        .level-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        
+        .level-icon { font-size: 3rem; color: var(--teal); margin-bottom: 20px; }
+        .level-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--dark); }
+        .level-card p { color: var(--gray); font-size: 0.95rem; }
+
+        /* --- Footer --- */
+        .footer { background: var(--dark); color: var(--white); padding: 50px 0 20px; text-align: center; }
+        .footer-logo { max-height: 70px; margin-bottom: 15px; filter: brightness(0) invert(1); }
+        .contact-info { margin-top: 20px; font-size: 0.9rem; color: #ccc; }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container nav-container">
+            <div class="logo"><a href="index.html"><img src="logo1.jpeg" class="logo-img" alt="المركز العلمي"></a></div>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="#" style="color: var(--cyan);">قسم الرسم</a></li>
+                    <li><a href="index.html#about">من نحن</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg" dir="ltr">
+            <div class="scrolling-track" id="scrolling-track">
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>قسم <span class="highlight">الرسم</span></h1>
+            <p>اكتشف الفنان الذي بداخلك وطوّر موهبتك خطوة بخطوة</p>
+        </div>
+    </section>
+
+    <section class="art-intro">
+        <div class="container">
+            <div class="art-intro-text">
+                <i class="fas fa-palette icon-art"></i>
+                <h2>الرسم مهارة وليس فقط موهبة!</h2>
+                <p>في المركز العلمي، نؤمن أن كل شخص يمتلك فناناً بداخله ينتظر الفرصة للتعبير عن نفسه. نقدم بيئة إبداعية متكاملة لتعليم الرسم لمختلف الأعمار (أطفال وكبار)، باستخدام منهجيات علمية تبدأ من مسكة القلم وتصل بك إلى رسم اللوحات الاحترافية.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="art-levels">
+        <div class="container">
+            <div class="section-title">
+                <h2>مستويات وبرامج الكورس</h2>
+            </div>
+            
+            <div class="levels-grid">
+                <div class="level-card">
+                    <i class="fas fa-pencil-alt level-icon"></i>
+                    <h3>أساسيات التظليل (الرصاص)</h3>
+                    <p>بداية الرحلة الفنية. تعلم كيفية مسك القلم، رسم الأشكال الهندسية، فهم الأبعاد والمنظور (Perspective)، والتدريب على تقنيات التظليل وإبراز النور والظل لخلق تجسيم واقعي للأشياء.</p>
+                </div>
+
+                <div class="level-card">
+                    <i class="fas fa-user level-icon"></i>
+                    <h3>رسم البورتريه (Portrait)</h3>
+                    <p>المستوى المتقدم في الرصاص والفحم. دراسة تشريح الوجه (Facial Anatomy)، نسب الملامح الصحيحة، وكيفية رسم العينين والشعر والجلد بأسلوب واقعي (Realistic) لالتقاط روح الشخصية.</p>
+                </div>
+
+                <div class="level-card">
+                    <i class="fas fa-paint-brush level-icon"></i>
+                    <h3>تقنيات الألوان</h3>
+                    <p>الانتقال إلى عالم الألوان. دراسة نظرية الألوان (Color Theory)، والتدريب العملي على استخدام الألوان المائية (Watercolor)، الأكريليك (Acrylic)، وصولاً إلى رسم المناظر الطبيعية واللوحات التعبيرية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <img src="logo1.jpeg" class="footer-logo" alt="المركز العلمي">
+            <p>المركز العلمي _ خبرة سنين</p>
+            <div class="contact-info">
+                <p>بني سويف - أرض المحلج | 01010959839</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // شريط الصور المتحرك في الهيرو (56 صورة)
+            const track = document.getElementById('scrolling-track');
+            let imagesHTML = '';
+            for (let i = 1; i <= 56; i++) {
+                imagesHTML += `<img src="bar (${i}).jpeg" alt="Center Image ${i}" onerror="this.style.display='none'">`;
+            }
+            track.innerHTML = imagesHTML + imagesHTML;
+        });
+    </script>
+</body>
+</html>
