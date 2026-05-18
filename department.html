@@ -56,7 +56,7 @@
             background: var(--white); padding: 40px 30px; border-radius: 15px; 
             text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
             border: 1px solid #eee; cursor: pointer; transition: 0.3s ease;
-            position: relative; overflow: hidden; /* تأثيرات تفاعلية حركية جميله وتجري ورا بعض */
+            position: relative; overflow: hidden;
         }
         
         /* حركة تفاعلية: تفتح عند التحويم وتتمدد */
@@ -74,7 +74,7 @@
         /* --- Footer (نفس الـ index مع اللوجو) --- */
         .footer { background: var(--dark); color: var(--white); padding: 70px 0 20px; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;}
-        .footer-logo { max-height: 80px; margin-bottom: 15px; /* اللوجو الملون */ }
+        .footer-logo { max-height: 80px; margin-bottom: 15px; }
         .footer-slogan { color: var(--cyan); font-size: 1.3rem; }
         .contact-info li { margin-bottom: 15px; display: flex; align-items: center; }
         .contact-info i { color: var(--teal); margin-left: 10px; width: 20px; text-align: center;}
@@ -98,7 +98,8 @@
             <nav class="navbar">
                 <ul class="nav-list">
                     <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="department.html" class="active">الأقسام</a></li> <li><a href="index.html#about">من نحن</a></li>
+                    <li><a href="department.html" class="active">الأقسام</a></li> 
+                    <li><a href="index.html#about">من نحن</a></li>
                 </ul>
             </nav>
             <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
@@ -121,6 +122,7 @@
             <div class="section-title"><h2>جميع الأقسام</h2></div>
             <div class="dept-grid">
                 
+                <!-- 1. برمجة -->
                 <a href="programming.html" class="dept-card">
                     <i class="fas fa-code dept-icon"></i>
                     <h3>برمجة</h3>
@@ -128,41 +130,7 @@
                     <span class="btn-dept">التفاصيل</span>
                 </a>
 
-                <a href="accounting.html" class="dept-card">
-                    <i class="fas fa-calculator dept-icon"></i>
-                    <h3>محاسبة</h3>
-                    <p>تأهيل عملي وشامل للمحاسب المالي وتحليل البيانات المتقدم.</p>
-                    <span class="btn-dept">التفاصيل</span>
-                </a>
-
-                <a href="languages.html" class="dept-card">
-                    <i class="fas fa-language dept-icon"></i>
-                    <h3>لغات</h3>
-                    <p>كورسات محادثة وتأسيس إنجليزي وألماني لجميع المستويات.</p>
-                    <span class="btn-dept">التفاصيل</span>
-                </a>
-
-                <a href="drawing.html" class="dept-card">
-                    <i class="fas fa-palette dept-icon"></i>
-                    <h3>رسم</h3>
-                    <p>اكتشف الفنان الذي بداخلك من أساسيات التظليل وحتى البورتريه.</p>
-                    <span class="btn-dept">التفاصيل</span>
-                </a>
-
-                <a href="calligraphy.html" class="dept-card">
-                    <i class="fas fa-pen-nib dept-icon"></i>
-                    <h3>خط عربي</h3>
-                    <p>حسن خطك وتعلم قواعد خط الرقعة والنسخ والديواني.</p>
-                    <span class="btn-dept">التفاصيل</span>
-                </a>
-
-                <a href="nour-bayan.html" class="dept-card">
-                    <i class="fas fa-book-open dept-icon"></i>
-                    <h3>نور بيان</h3>
-                    <p>التأسيس السليم للأطفال في القراءة والكتابة وتلاوة القرآن.</p>
-                    <span class="btn-dept">التفاصيل</span>
-                </a>
-
+                <!-- 2. ICDL -->
                 <a href="icdl.html" class="dept-card">
                     <i class="fas fa-laptop-code dept-icon"></i>
                     <h3>ICDL</h3>
@@ -170,6 +138,31 @@
                     <span class="btn-dept">التفاصيل</span>
                 </a>
 
+                <!-- 3. جرافيك -->
+                <a href="graphic.html" class="dept-card">
+                    <i class="fas fa-bezier-curve dept-icon"></i>
+                    <h3>جرافيك</h3>
+                    <p>إتقان Adobe Photoshop & Illustrator لتصبح مصمماً محترفاً.</p>
+                    <span class="btn-dept">التفاصيل</span>
+                </a>
+
+                <!-- 4. لغات -->
+                <a href="languages.html" class="dept-card">
+                    <i class="fas fa-language dept-icon"></i>
+                    <h3>لغات</h3>
+                    <p>كورسات محادثة وتأسيس إنجليزي وألماني لجميع المستويات.</p>
+                    <span class="btn-dept">التفاصيل</span>
+                </a>
+
+                <!-- 5. محاسبة -->
+                <a href="accounting.html" class="dept-card">
+                    <i class="fas fa-calculator dept-icon"></i>
+                    <h3>محاسبة</h3>
+                    <p>تأهيل عملي وشامل للمحاسب المالي وتحليل البيانات المتقدم.</p>
+                    <span class="btn-dept">التفاصيل</span>
+                </a>
+
+                <!-- 6. G Maths -->
                 <a href="g-maths.html" class="dept-card">
                     <i class="fas fa-brain dept-icon"></i>
                     <h3>G Maths</h3>
@@ -177,10 +170,35 @@
                     <span class="btn-dept">التفاصيل</span>
                 </a>
 
-                <a href="graphic.html" class="dept-card">
-                    <i class="fas fa-bezier-curve dept-icon"></i>
-                    <h3>جرافيك</h3>
-                    <p>إتقان Adobe Photoshop & Illustrator لتصبح مصمماً محترفاً.</p>
+                <!-- 7. نور بيان -->
+                <a href="nour-bayan.html" class="dept-card">
+                    <i class="fas fa-book-open dept-icon"></i>
+                    <h3>نور بيان</h3>
+                    <p>التأسيس السليم للأطفال في القراءة والكتابة وتلاوة القرآن.</p>
+                    <span class="btn-dept">التفاصيل</span>
+                </a>
+
+                <!-- 8. رسم -->
+                <a href="drawing.html" class="dept-card">
+                    <i class="fas fa-palette dept-icon"></i>
+                    <h3>رسم</h3>
+                    <p>اكتشف الفنان الذي بداخلك من أساسيات التظليل وحتى البورتريه.</p>
+                    <span class="btn-dept">التفاصيل</span>
+                </a>
+
+                <!-- 9. خط عربي -->
+                <a href="calligraphy.html" class="dept-card">
+                    <i class="fas fa-pen-nib dept-icon"></i>
+                    <h3>خط عربي</h3>
+                    <p>حسن خطك وتعلم قواعد خط الرقعة والنسخ والديواني.</p>
+                    <span class="btn-dept">التفاصيل</span>
+                </a>
+
+                <!-- 10. تأسيس أطفال (القسم الجديد) -->
+                <a href="kids-foundation.html" class="dept-card">
+                    <i class="fas fa-child dept-icon"></i>
+                    <h3>كورسات تأسيس أطفال</h3>
+                    <p>برامج متكاملة لتأسيس وتنمية مهارات الأطفال بأساليب حديثة.</p>
                     <span class="btn-dept">التفاصيل</span>
                 </a>
 
@@ -218,7 +236,6 @@
             <p>جميع الحقوق محفوظة &copy; 2026 المركز العلمي</p>
         </div>
     </footer>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
